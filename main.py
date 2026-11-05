@@ -36,6 +36,8 @@ GPU1Sprite = pygame.transform.scale(GPU1Sprite, (220, 200))
 BigGPU1Sprite = pygame.image.load("imgs/GPU1.png").convert_alpha()
 BigGPU1Sprite = pygame.transform.scale(BigGPU1Sprite, (330, 300))
 
+GPURect = pygame.Rect(450, 20, 220, 200)
+
 CurrentGPU = "GPU1"
 CurrentGPUSPRITE = GPU1Sprite
 CURRENTINCOME = 1
