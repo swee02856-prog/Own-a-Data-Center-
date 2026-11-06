@@ -26,20 +26,16 @@ window.fill((0, 0, 0))
 pygame.display.set_caption("Build a Data Center!")
 
 popsound = pygame.mixer.Sound("sounds/pop.mp3")
+moneysound = pygame.mixer.Sound("sounds/money.mp3")
 
 BuyButton = pygame.image.load("imgs/BuyButton.png").convert_alpha()
-BuyButton = pygame.transform.scale(BuyButton, (200, 180))
+SmallBuyButton = pygame.transform.scale(BuyButton, (200, 180))
+BigBuyButton = pygame.transform.scale(BuyButton, (250, 230))
 
-BuyButtonRect = BuyButton.get_rect(topleft=(50, 400))
+BuyButtonRect = BuyButton.get_rect(topleft=(50, 450))
 
 PriceBackground = pygame.image.load("imgs/PriceBackground.png").convert_alpha()
 PriceBackground = pygame.transform.scale(PriceBackground, (200, 140))
-
-TestImage = pygame.image.load("imgs/cat.png").convert_alpha()
-BigTestImage = pygame.transform.scale(TestImage, (180, 180))
-SmallTestImage = pygame.transform.scale(TestImage, (150, 150))
-
-TestImageRect = TestImage.get_rect(topleft=(75, 220))
 
 RegularFont = pygame.font.Font(("Kalam-Regular.ttf"), 80)
 SmallerFont = pygame.font.Font(("Kalam-Regular.ttf"), 40)
@@ -56,6 +52,24 @@ GPU1Sprite = pygame.transform.scale(GPU1Sprite, (220, 200))
 BigGPU1Sprite = pygame.image.load("imgs/GPU1.png").convert_alpha()
 BigGPU1Sprite = pygame.transform.scale(BigGPU1Sprite, (275, 250))
 
+GPU2Sprite = pygame.image.load("imgs/GPU2.png").convert_alpha()
+GPU2Sprite = pygame.transform.scale(GPU2Sprite, (240, 220))
+
+BigGPU2Sprite = pygame.image.load("imgs/GPU2.png").convert_alpha()
+BigGPU2Sprite = pygame.transform.scale(BigGPU2Sprite, (295, 270))
+
+GPU3Sprite = pygame.image.load("imgs/GPU3.png").convert_alpha()
+GPU3Sprite = pygame.transform.scale(GPU3Sprite, (260, 240))
+
+BigGPU3Sprite = pygame.image.load("imgs/GPU3.png").convert_alpha()
+BigGPU3Sprite = pygame.transform.scale(BigGPU3Sprite, (315, 290))
+
+GPU4Sprite = pygame.image.load("imgs/GPU4.png").convert_alpha()
+GPU4Sprite = pygame.transform.scale(GPU4Sprite, (270, 250))
+
+BigGPU4Sprite = pygame.image.load("imgs/GPU4.png").convert_alpha()
+BigGPU4Sprite = pygame.transform.scale(BigGPU4Sprite, (325, 300))
+
 GPURect = pygame.Rect(450, 20, 220, 200)
 
 StartingGPU = GPU1Sprite
@@ -64,13 +78,23 @@ CurrentGPU = StartingGPU
 CurrentGPUSPRITE = StartingGPU
 
 IncomeMultiplier = 1
-CURRENTINCOME = 1
+CURRENTINCOME = 0
 CURRENTMONEY = 0
 
 ANGLE = 0
 ROTATIONSPEED = 0.3
 
 LastIncomeTime = pygame.time.get_ticks()
+GPUUPGRADE1PRICE = 600
+GPUUPGRADE2PRICE = 5000
+GPUUPGRADE3PRICE = 45000
+CurrentGpuUpgradePrice = GPUUPGRADE1PRICE
+CurrentUpgradedGPU = GPU2Sprite
+
+GPU1IncomeMultiplier = 1
+GPU2IncomeMultiplier = 2
+GPU3IncomeMultiplier = 4
+GPU4IncomeMultiplier = 6
 
 GameRunning = True
 while GameRunning:
@@ -83,7 +107,6 @@ while GameRunning:
     # Sin wave stuff 
     MoneyFloat = math.sin(CurrentTime * 0.003) * 6
     IncomeFloat = math.sin(CurrentTime * 0.005) * 5
-
     # Gpu Rotation
     ANGLE += ROTATIONSPEED
 
@@ -97,26 +120,59 @@ while GameRunning:
         if event.type == pygame.MOUSEBUTTONDOWN:
             if UpdatedGpuRect.collidepoint(MousePosition):
                 popsound.play()
-                CURRENTINCOME += 1
+                CURRENTINCOME += 0.1
+                # Gpu Big click effect
                 if CurrentGPU == GPU1Sprite:
                     CurrentGPU = BigGPU1Sprite
+                if CurrentGPU == GPU2Sprite:
+                    CurrentGPU = BigGPU2Sprite
+                if CurrentGPU == GPU3Sprite:
+                    CurrentGPU = BigGPU3Sprite
+                if CurrentGPU == GPU4Sprite:
+                    CurrentGPU = BigGPU4Sprite
             
             if BuyButtonRect.collidepoint(MousePosition):
-                IncomeMultiplier = 2
-                CURRENTINCOME = CURRENTINCOME * IncomeMultiplier
-
+                if CURRENTMONEY >= CurrentGpuUpgradePrice:
+                    CurrentGPU = CurrentUpgradedGPU
+                    CURRENTMONEY -= CurrentGpuUpgradePrice
+                    BuyButton = BigBuyButton
+                    IncomeMultiplier += GPUIncomeMultiplier
+                    CURRENTINCOME = CURRENTINCOME * IncomeMultiplier
+                    moneysound.play()
         else:
+            # Gpu big click effect return
             if CurrentGPU == BigGPU1Sprite:
                 CurrentGPU = GPU1Sprite
+            if CurrentGPU == BigGPU2Sprite:
+                CurrentGPU = GPU2Sprite
+            if CurrentGPU == BigGPU3Sprite:
+                CurrentGPU = GPU3Sprite
+            if CurrentGPU == BigGPU4Sprite:
+                CurrentGPU = GPU4Sprite
+            BuyButton = SmallBuyButton
 
+    if CurrentGPU == GPU1Sprite:
+        GPUIncomeMultiplier = GPU1IncomeMultiplier
 
-    if TestImageRect.collidepoint(MousePosition):
-        TestImage = BigTestImage
-    else:
-        TestImage = SmallTestImage
+    if CurrentGPU == GPU2Sprite:
+        CurrentUpgradedGPU = GPU3Sprite
+        GPUIncomeMultiplier = GPU2IncomeMultiplier
+
+    if CurrentGPU == GPU3Sprite:
+        CurrentUpgradedGPU = GPU4Sprite
+        GPUIncomeMultiplier = GPU3IncomeMultiplier
+    
+    if CurrentGPU == GPU4Sprite:
+        GPUMAXED = True
+        GPUIncomeMultiplier = GPU4IncomeMultiplier
+        
+    BuyButtonRect = BuyButton.get_rect(topleft=(50, 450))
+    
     Money = str(CurrentDisplayedMoney)
     Income = str(CurrentDisplayedIncome)
     window.blit(Background, (0, 0))
+
+    window.blit(BuyButton, (50, 450))
 
     # Money stuff
     window.blit(MoneySprite, (50, 20 + MoneyFloat))
@@ -131,11 +187,7 @@ while GameRunning:
     UpdatedGpuRect = GPURotated.get_rect(center=GPURect.center)
     window.blit(GPURotated, UpdatedGpuRect.topleft)
 
-    window.blit(BuyButton, (50, 400))
-    window.blit(PriceBackground, (50, 350))
-
-    # Test image
-    window.blit(TestImage, (TestImageRect))
+    window.blit(PriceBackground, (50, 400))
 
     clock.tick(60)
     pygame.display.flip()
