@@ -13,8 +13,12 @@ Day 2
 Add GPU clicking system
 Make it add income once clicked
 Replace test button with gpu
-'''
 
+Day 3
+Fully implement all Gpus into GPU shop
+Make the Money multiplier fully work
+Start on the other upgrades
+'''
 clock = pygame.time.Clock()
 
 window = pygame.display.set_mode((800, 600))
@@ -22,6 +26,20 @@ window.fill((0, 0, 0))
 pygame.display.set_caption("Build a Data Center!")
 
 popsound = pygame.mixer.Sound("sounds/pop.mp3")
+
+BuyButton = pygame.image.load("imgs/BuyButton.png").convert_alpha()
+BuyButton = pygame.transform.scale(BuyButton, (200, 180))
+
+BuyButtonRect = BuyButton.get_rect(topleft=(50, 400))
+
+PriceBackground = pygame.image.load("imgs/PriceBackground.png").convert_alpha()
+PriceBackground = pygame.transform.scale(PriceBackground, (200, 140))
+
+TestImage = pygame.image.load("imgs/cat.png").convert_alpha()
+BigTestImage = pygame.transform.scale(TestImage, (180, 180))
+SmallTestImage = pygame.transform.scale(TestImage, (150, 150))
+
+TestImageRect = TestImage.get_rect(topleft=(75, 220))
 
 RegularFont = pygame.font.Font(("Kalam-Regular.ttf"), 80)
 SmallerFont = pygame.font.Font(("Kalam-Regular.ttf"), 40)
@@ -40,8 +58,12 @@ BigGPU1Sprite = pygame.transform.scale(BigGPU1Sprite, (275, 250))
 
 GPURect = pygame.Rect(450, 20, 220, 200)
 
-CurrentGPU = "GPU1"
-CurrentGPUSPRITE = GPU1Sprite
+StartingGPU = GPU1Sprite
+
+CurrentGPU = StartingGPU
+CurrentGPUSPRITE = StartingGPU
+
+IncomeMultiplier = 1
 CURRENTINCOME = 1
 CURRENTMONEY = 0
 
@@ -52,6 +74,7 @@ LastIncomeTime = pygame.time.get_ticks()
 
 GameRunning = True
 while GameRunning:
+    MousePosition = pygame.mouse.get_pos()
     # Income text 
     CurrentDisplayedMoney = round(CURRENTMONEY)
     CurrentDisplayedIncome = round(CURRENTINCOME)
@@ -72,19 +95,25 @@ while GameRunning:
             GameRunning = False
             break
         if event.type == pygame.MOUSEBUTTONDOWN:
-            MousePosition = pygame.mouse.get_pos()
-            if GPURect.collidepoint(MousePosition):
+            if UpdatedGpuRect.collidepoint(MousePosition):
                 popsound.play()
                 CURRENTINCOME += 1
                 if CurrentGPU == GPU1Sprite:
                     CurrentGPU = BigGPU1Sprite
+            
+            if BuyButtonRect.collidepoint(MousePosition):
+                IncomeMultiplier = 2
+                CURRENTINCOME = CURRENTINCOME * IncomeMultiplier
+
         else:
             if CurrentGPU == BigGPU1Sprite:
                 CurrentGPU = GPU1Sprite
 
-    if CurrentGPU == "GPU1":
-        CurrentGPU = GPU1Sprite
 
+    if TestImageRect.collidepoint(MousePosition):
+        TestImage = BigTestImage
+    else:
+        TestImage = SmallTestImage
     Money = str(CurrentDisplayedMoney)
     Income = str(CurrentDisplayedIncome)
     window.blit(Background, (0, 0))
@@ -97,10 +126,16 @@ while GameRunning:
     IncomeText = RegularFont.render(f"{Income} /s", True, (0, 0, 0))
     window.blit(IncomeText, (50, 100 + IncomeFloat))
 
+    # Gpu stuff & Buy stuff
     GPURotated = pygame.transform.rotate(CurrentGPU, ANGLE)
-
     UpdatedGpuRect = GPURotated.get_rect(center=GPURect.center)
     window.blit(GPURotated, UpdatedGpuRect.topleft)
+
+    window.blit(BuyButton, (50, 400))
+    window.blit(PriceBackground, (50, 350))
+
+    # Test image
+    window.blit(TestImage, (TestImageRect))
 
     clock.tick(60)
     pygame.display.flip()
