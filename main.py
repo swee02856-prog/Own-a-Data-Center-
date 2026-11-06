@@ -21,6 +21,8 @@ window = pygame.display.set_mode((800, 600))
 window.fill((0, 0, 0))
 pygame.display.set_caption("Build a Data Center!")
 
+popsound = pygame.mixer.Sound("sounds/pop.mp3")
+
 RegularFont = pygame.font.Font(("Kalam-Regular.ttf"), 80)
 SmallerFont = pygame.font.Font(("Kalam-Regular.ttf"), 40)
 
@@ -34,7 +36,7 @@ GPU1Sprite = pygame.image.load("imgs/GPU1.png").convert_alpha()
 GPU1Sprite = pygame.transform.scale(GPU1Sprite, (220, 200))
 
 BigGPU1Sprite = pygame.image.load("imgs/GPU1.png").convert_alpha()
-BigGPU1Sprite = pygame.transform.scale(BigGPU1Sprite, (330, 300))
+BigGPU1Sprite = pygame.transform.scale(BigGPU1Sprite, (275, 250))
 
 GPURect = pygame.Rect(450, 20, 220, 200)
 
@@ -72,6 +74,7 @@ while GameRunning:
         if event.type == pygame.MOUSEBUTTONDOWN:
             MousePosition = pygame.mouse.get_pos()
             if GPURect.collidepoint(MousePosition):
+                popsound.play()
                 CURRENTINCOME += 1
                 if CurrentGPU == GPU1Sprite:
                     CurrentGPU = BigGPU1Sprite
