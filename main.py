@@ -18,6 +18,13 @@ Day 3
 Fully implement all Gpus into GPU shop
 Make the Money multiplier fully work
 Start on the other upgrades
+
+Day 4
+Add Sam altman character (make him change how he looks 
+poor -> rich -> godly)
+Add text just like from cookie clicker that moves across
+the screen slowly highlighting the current state of the center
+Start on the other upgrades
 '''
 clock = pygame.time.Clock()
 
@@ -34,11 +41,8 @@ BigBuyButton = pygame.transform.scale(BuyButton, (250, 230))
 
 BuyButtonRect = BuyButton.get_rect(topleft=(50, 450))
 
-PriceBackground = pygame.image.load("imgs/PriceBackground.png").convert_alpha()
-PriceBackground = pygame.transform.scale(PriceBackground, (200, 140))
-
 RegularFont = pygame.font.Font(("Kalam-Regular.ttf"), 80)
-SmallerFont = pygame.font.Font(("Kalam-Regular.ttf"), 40)
+SmallerFont = pygame.font.Font(("Kalam-Regular.ttf"), 60)
 
 Background = pygame.surface.Surface((800, 600))
 Background.fill((255, 255, 255))
@@ -166,26 +170,31 @@ while GameRunning:
     window.blit(Background, (0, 0))
     # Draw or print stuff after this
 
-    if CurrentGPU == GPU1Sprite:
+    if CurrentGPU == GPU1Sprite or CurrentGPU == BigGPU1Sprite:
         CurrentGpuUpgradePrice = GPUUPGRADE1PRICE
         window.blit(GPU2ExampleSprite, (30, 250))
+        GPUPriceText = SmallerFont.render(f"${CurrentGpuUpgradePrice}", True, (0, 0, 0))
+        window.blit(GPUPriceText, (80, 430))
 
-    if CurrentGPU == GPU2Sprite:
+    if CurrentGPU == GPU2Sprite or CurrentGPU == BigGPU2Sprite:
         window.blit(GPU3ExampleSprite, (50, 250))
         CurrentGpuUpgradePrice = GPUUPGRADE2PRICE
         CurrentUpgradedGPU = GPU3Sprite
         CurrentMoneyMultiplier = GPU2ClickMultiplier
+        GPUPriceText = SmallerFont.render(f"${CurrentGpuUpgradePrice}", True, (0, 0, 0))
+        window.blit(GPUPriceText, (70, 430))
 
-    if CurrentGPU == GPU3Sprite:
+    if CurrentGPU == GPU3Sprite or CurrentGPU == BigGPU3Sprite:
         window.blit(GPU4ExampleSprite, (50, 250))
         CurrentGpuUpgradePrice = GPUUPGRADE3PRICE
         CurrentMoneyMultiplier = GPU3ClickMultiplier
         CurrentUpgradedGPU = GPU4Sprite
+        GPUPriceText = SmallerFont.render(f"${CurrentGpuUpgradePrice}", True, (0, 0, 0))
+        window.blit(GPUPriceText, (60, 430))
     
-    if CurrentGPU == GPU4Sprite:
+    if CurrentGPU == GPU4Sprite or CurrentGPU == BigGPU4Sprite:
         CurrentMoneyMultiplier = GPU4ClickMultiplier
-        GPUMAXED = True
-    
+        GPUMAXED = True    
     BuyButtonRect = BuyButton.get_rect(topleft=(50, 450))
     
     Money = str(CurrentDisplayedMoney)
@@ -205,8 +214,6 @@ while GameRunning:
     GPURotated = pygame.transform.rotate(CurrentGPU, ANGLE)
     UpdatedGpuRect = GPURotated.get_rect(center=GPURect.center)
     window.blit(GPURotated, UpdatedGpuRect.topleft)
-
-    window.blit(PriceBackground, (50, 400))
 
     clock.tick(60)
     pygame.display.flip()
