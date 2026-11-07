@@ -70,6 +70,15 @@ GPU4Sprite = pygame.transform.scale(GPU4Sprite, (270, 250))
 BigGPU4Sprite = pygame.image.load("imgs/GPU4.png").convert_alpha()
 BigGPU4Sprite = pygame.transform.scale(BigGPU4Sprite, (325, 300))
 
+GPU2ExampleSprite = pygame.image.load("imgs/Rtx5060.png").convert_alpha()
+GPU2ExampleSprite = pygame.transform.scale(GPU2ExampleSprite, (200, 200))
+
+GPU3ExampleSprite = pygame.image.load("imgs/Rtx5090.png").convert_alpha()
+GPU3ExampleSprite = pygame.transform.scale(GPU3ExampleSprite, (200, 200))
+
+GPU4ExampleSprite = pygame.image.load("imgs/RtxServer6000.png").convert_alpha()
+GPU4ExampleSprite = pygame.transform.scale(GPU4ExampleSprite, (200, 200))
+
 GPURect = pygame.Rect(450, 20, 220, 200)
 
 StartingGPU = GPU1Sprite
@@ -93,8 +102,8 @@ CurrentUpgradedGPU = GPU2Sprite
 
 GPU1IncomeMultiplier = 1
 GPU2IncomeMultiplier = 2
-GPU3IncomeMultiplier = 4
-GPU4IncomeMultiplier = 6
+GPU3IncomeMultiplier = 3
+GPU4IncomeMultiplier = 4
 
 GameRunning = True
 while GameRunning:
@@ -120,7 +129,7 @@ while GameRunning:
         if event.type == pygame.MOUSEBUTTONDOWN:
             if UpdatedGpuRect.collidepoint(MousePosition):
                 popsound.play()
-                CURRENTINCOME += 0.1
+                CURRENTMONEY += 1
                 # Gpu Big click effect
                 if CurrentGPU == GPU1Sprite:
                     CurrentGPU = BigGPU1Sprite
@@ -151,26 +160,31 @@ while GameRunning:
                 CurrentGPU = GPU4Sprite
             BuyButton = SmallBuyButton
 
+    window.blit(Background, (0, 0))
+    # Draw or print stuff after this
+
     if CurrentGPU == GPU1Sprite:
+        window.blit(GPU2ExampleSprite, (30, 250))
         GPUIncomeMultiplier = GPU1IncomeMultiplier
 
     if CurrentGPU == GPU2Sprite:
+        window.blit(GPU3ExampleSprite, (50, 250))
         CurrentUpgradedGPU = GPU3Sprite
         GPUIncomeMultiplier = GPU2IncomeMultiplier
 
     if CurrentGPU == GPU3Sprite:
+        window.blit(GPU4ExampleSprite, (50, 250))
         CurrentUpgradedGPU = GPU4Sprite
         GPUIncomeMultiplier = GPU3IncomeMultiplier
     
     if CurrentGPU == GPU4Sprite:
         GPUMAXED = True
         GPUIncomeMultiplier = GPU4IncomeMultiplier
-        
+    
     BuyButtonRect = BuyButton.get_rect(topleft=(50, 450))
     
     Money = str(CurrentDisplayedMoney)
     Income = str(CurrentDisplayedIncome)
-    window.blit(Background, (0, 0))
 
     window.blit(BuyButton, (50, 450))
 
