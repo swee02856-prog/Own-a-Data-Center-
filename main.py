@@ -53,6 +53,7 @@ BigDebtBuyButton = pygame.transform.scale(DebtBuyButton, (250, 230))
 
 RegularFont = pygame.font.Font(("Kalam-Regular.ttf"), 80)
 SmallerFont = pygame.font.Font(("Kalam-Regular.ttf"), 60)
+EvenSmallerFont = pygame.font.Font(("Kalam-Regular.ttf"), 30)
 LargeFont = pygame.font.Font(("Kalam-Regular.ttf"), 110)
 
 Background = pygame.surface.Surface((800, 600))
@@ -143,6 +144,11 @@ GPU4ClickMultiplier = 4
 
 CurrentMoneyMultiplier = GPU1ClickMultiplier
 CurrentIncomeMultiplier = 1
+
+NewsX = 0
+NewsVelocityX = 2
+
+CurrentMessage = "Your Services are like a ghost"
 
 GPURotated = pygame.transform.rotate(CurrentGPU, ANGLE)
 UpdatedGpuRect = GPURotated.get_rect(center=GPURect.center)
@@ -286,6 +292,29 @@ while GameRunning:
     WorkerBuyButtonRect = WorkerBuyButton.get_rect(topleft=(300, 450))
     DebtBuyButtonRect = WorkerBuyButton.get_rect(topleft=(560, 450))
     
+    NewsText = EvenSmallerFont.render(f"{CurrentMessage}", True, (0, 0, 0))
+    NewsX += NewsVelocityX
+
+    window.blit(NewsText, (NewsX, 10))
+
+    if NewsX > 2000:
+        NewsX = -700
+    
+    if CURRENTMONEY >= 500:
+        CurrentMessage = "Your Center is getting some attention"
+
+    if CURRENTMONEY >= 2000:
+        CurrentMessage = "People are paying hundreds just for your GPU's"
+
+    if CURRENTMONEY >= 10000:
+        CurrentMessage = "Your GPU's are desired by the best cloud services!"
+
+    if CURRENTMONEY >= 20000:
+        CurrentMessage = "OpenAI and Anthropic are fighting for your GPU services!"
+
+    if CURRENTMONEY >= 50000:
+        CurrentMessage = "Microsoft says: The AI uprising is upon us.."
+
     if GPUMAXED == True:
         GpuBuyButtonRect = GpuBuyButton.get_rect(topleft=(-100, 900))
 
