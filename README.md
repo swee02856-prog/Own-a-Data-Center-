@@ -38,7 +38,7 @@ Workers basically give you income, and income is added onto the current money yo
 For Example the intern makes $5 per second and if you have the default starting GPU which makes $1 per click,
 your income will still be $5 because 5 x 1  = 5.
 
-# How do you win?
+# How do you win and How do you play?
 
 To win you must save up enough money and buy the "Debt" upgrade.
 
