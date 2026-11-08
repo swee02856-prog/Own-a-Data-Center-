@@ -27,6 +27,14 @@ And thats how you get this joke game! (Suprisingly)
 
 <img width="960" height="720" alt="Screenshot_2026-11-07_21-26-20" src="https://github.com/user-attachments/assets/b9d3b397-9692-419c-8e68-ea7de8664d03" />
 
+# Installation
+
+- This game can only be played on Linux kernel based operating systems only
+
+If you do meet this requirement you can head into releases and download the Linux executable file,
+
+NOT Source Code
+
 # What are the games features?
 
 Clicking the GPU Icon in the top right gives you money, there is a specified amount of money given to each gpu type when the player clicks on them.
