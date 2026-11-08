@@ -25,6 +25,7 @@ poor -> rich -> godly)
 Add text just like from cookie clicker that moves across
 the screen slowly highlighting the current state of the center
 Start on the other upgrades
+Add Worker shop
 '''
 clock = pygame.time.Clock()
 
@@ -35,17 +36,41 @@ pygame.display.set_caption("Build a Data Center!")
 popsound = pygame.mixer.Sound("sounds/pop.mp3")
 moneysound = pygame.mixer.Sound("sounds/money.mp3")
 
-BuyButton = pygame.image.load("imgs/BuyButton.png").convert_alpha()
-SmallBuyButton = pygame.transform.scale(BuyButton, (200, 180))
-BigBuyButton = pygame.transform.scale(BuyButton, (250, 230))
+debtimage = pygame.image.load("imgs/debt.png").convert_alpha()
+debtimage = pygame.transform.scale(debtimage, (200, 200))
 
-BuyButtonRect = BuyButton.get_rect(topleft=(50, 450))
+GpuBuyButton = pygame.image.load("imgs/BuyButton.png").convert_alpha()
+SmallGpuBuyButton = pygame.transform.scale(GpuBuyButton, (200, 180))
+BigGpuBuyButton = pygame.transform.scale(GpuBuyButton, (250, 230))
+
+WorkerBuyButton = pygame.image.load("imgs/BuyButton.png").convert_alpha()
+SmallWorkerBuyButton = pygame.transform.scale(WorkerBuyButton, (200, 180))
+BigWorkerBuyButton = pygame.transform.scale(WorkerBuyButton, (250, 230))
+
+DebtBuyButton = pygame.image.load("imgs/BuyButton.png").convert_alpha()
+SmallDebtBuyButton = pygame.transform.scale(DebtBuyButton, (200, 180))
+BigDebtBuyButton = pygame.transform.scale(DebtBuyButton, (250, 230))
 
 RegularFont = pygame.font.Font(("Kalam-Regular.ttf"), 80)
 SmallerFont = pygame.font.Font(("Kalam-Regular.ttf"), 60)
+LargeFont = pygame.font.Font(("Kalam-Regular.ttf"), 110)
 
 Background = pygame.surface.Surface((800, 600))
 Background.fill((255, 255, 255))
+
+FirstWorker = pygame.image.load("imgs/Intern.png").convert_alpha()
+FirstWorker = pygame.transform.scale(FirstWorker, (200, 200))
+
+SecondWorker = pygame.image.load("imgs/LeetcodeTryhard.png").convert_alpha()
+SecondWorker = pygame.transform.scale(SecondWorker, (200, 200))
+
+ThirdWorker = pygame.image.load("imgs/LinusTechTips.png").convert_alpha()
+ThirdWorker = pygame.transform.scale(ThirdWorker, (200, 200))
+
+FourthWorker = pygame.image.load("imgs/LinusTorwalds.png").convert_alpha()
+FourthWorker = pygame.transform.scale(FourthWorker, (200, 200))
+
+CurrentWorker = "None"
 
 MoneySprite = pygame.image.load("imgs/Money.png").convert_alpha()
 MoneySprite = pygame.transform.scale(MoneySprite, (100, 50))
@@ -98,11 +123,18 @@ ANGLE = 0
 ROTATIONSPEED = 0.3
 
 LastIncomeTime = pygame.time.get_ticks()
-GPUUPGRADE1PRICE = 600
-GPUUPGRADE2PRICE = 5000
-GPUUPGRADE3PRICE = 45000
+GPUUPGRADE1PRICE = 300
+GPUUPGRADE2PRICE = 1000
+GPUUPGRADE3PRICE = 30000
 CurrentGpuUpgradePrice = GPUUPGRADE1PRICE
 CurrentUpgradedGPU = GPU2Sprite
+
+WORKER1PRICE = 50
+WORKER2PRICE = 300
+WORKER3PRICE = 1500
+WORKER4PRICE = 10000
+
+CurrentWorkerUpgradePrice = WORKER1PRICE
 
 GPU1ClickMultiplier = 1
 GPU2ClickMultiplier = 2
@@ -112,6 +144,14 @@ GPU4ClickMultiplier = 4
 CurrentMoneyMultiplier = GPU1ClickMultiplier
 CurrentIncomeMultiplier = 1
 
+GPURotated = pygame.transform.rotate(CurrentGPU, ANGLE)
+UpdatedGpuRect = GPURotated.get_rect(center=GPURect.center)
+
+DebtCost = 50000
+
+WORKERMAXED = False
+GPUMAXED = False
+GameFinished = False
 GameRunning = True
 while GameRunning:
     MousePosition = pygame.mouse.get_pos()
@@ -147,13 +187,25 @@ while GameRunning:
                 if CurrentGPU == GPU4Sprite:
                     CurrentGPU = BigGPU4Sprite
             
-            if BuyButtonRect.collidepoint(MousePosition):
+            if GpuBuyButtonRect.collidepoint(MousePosition):
                 if CURRENTMONEY >= CurrentGpuUpgradePrice:
                     CurrentGPU = CurrentUpgradedGPU
                     CURRENTMONEY -= CurrentGpuUpgradePrice
-                    BuyButton = BigBuyButton
+                    GpuBuyButton = BigGpuBuyButton
                     IncomeMultiplier = CurrentIncomeMultiplier
                     CURRENTINCOME = CURRENTINCOME * IncomeMultiplier
+                    moneysound.play()
+            if WorkerBuyButtonRect.collidepoint(MousePosition):
+                if CURRENTMONEY >= CurrentWorkerUpgradePrice:
+                    CURRENTMONEY -= CurrentWorkerUpgradePrice
+                    WorkerBuyButton = BigWorkerBuyButton
+                    CurrentWorker = UpgradedWorker
+                    moneysound.play()
+            if DebtBuyButtonRect.collidepoint(MousePosition):
+                if CURRENTMONEY >= DebtCost:
+                    CURRENTMONEY -= DebtCost
+                    DebtBuyButton = BigDebtBuyButton
+                    GameFinished = True
                     moneysound.play()
         else:
             # Gpu big click effect return
@@ -165,7 +217,9 @@ while GameRunning:
                 CurrentGPU = GPU3Sprite
             if CurrentGPU == BigGPU4Sprite:
                 CurrentGPU = GPU4Sprite
-            BuyButton = SmallBuyButton
+            GpuBuyButton = SmallGpuBuyButton
+            WorkerBuyButton = SmallWorkerBuyButton
+            DebtBuyButton = SmallDebtBuyButton
 
     window.blit(Background, (0, 0))
     # Draw or print stuff after this
@@ -191,16 +245,69 @@ while GameRunning:
         CurrentUpgradedGPU = GPU4Sprite
         GPUPriceText = SmallerFont.render(f"${CurrentGpuUpgradePrice}", True, (0, 0, 0))
         window.blit(GPUPriceText, (60, 430))
-    
+
+    if CurrentWorker == "None":
+        CurrentWorkerUpgradePrice = WORKER1PRICE
+        window.blit(FirstWorker, (300, 230))
+        UpgradedWorker = FirstWorker
+        WorkerPriceText = SmallerFont.render(f"${CurrentWorkerUpgradePrice}", True, (0, 0, 0))
+        window.blit(WorkerPriceText, (300, 430))
+    if CurrentWorker == FirstWorker:
+        CurrentWorkerUpgradePrice = WORKER2PRICE
+        window.blit(SecondWorker, (300, 230))
+        UpgradedWorker = SecondWorker
+        CURRENTINCOME = 5 * CurrentMoneyMultiplier
+        WorkerPriceText = SmallerFont.render(f"${CurrentWorkerUpgradePrice}", True, (0, 0, 0))
+        window.blit(WorkerPriceText, (300, 430))
+    if CurrentWorker == SecondWorker:
+        CurrentWorkerUpgradePrice = WORKER3PRICE
+        window.blit(ThirdWorker, (300, 230))
+        UpgradedWorker = ThirdWorker
+        CURRENTINCOME = 30 * CurrentMoneyMultiplier
+        WorkerPriceText = SmallerFont.render(f"${CurrentWorkerUpgradePrice}", True, (0, 0, 0))
+        window.blit(WorkerPriceText, (300, 430))
+    if CurrentWorker == ThirdWorker:
+        CurrentWorkerUpgradePrice = WORKER4PRICE
+        window.blit(FourthWorker, (300, 230))
+        UpgradedWorker = FourthWorker
+        CURRENTINCOME = 150 * CurrentMoneyMultiplier
+        WorkerPriceText = SmallerFont.render(f"${CurrentWorkerUpgradePrice}", True, (0, 0, 0))
+        window.blit(WorkerPriceText, (300, 430))
+    if CurrentWorker == FourthWorker:        
+        WorkerBuyButtonRect = WorkerBuyButton.get_rect(topleft=(-100, 900))
+        CURRENTINCOME = 1000 * CurrentMoneyMultiplier
+        WORKERMAXED = True
+        # End of workers section
     if CurrentGPU == GPU4Sprite or CurrentGPU == BigGPU4Sprite:
         CurrentMoneyMultiplier = GPU4ClickMultiplier
-        GPUMAXED = True    
-    BuyButtonRect = BuyButton.get_rect(topleft=(50, 450))
+        GPUMAXED = True
+          
+    GpuBuyButtonRect = GpuBuyButton.get_rect(topleft=(50, 450))
+    WorkerBuyButtonRect = WorkerBuyButton.get_rect(topleft=(300, 450))
+    DebtBuyButtonRect = WorkerBuyButton.get_rect(topleft=(560, 450))
     
+    if GPUMAXED == True:
+        GpuBuyButtonRect = GpuBuyButton.get_rect(topleft=(-100, 900))
+
+    if WORKERMAXED == True:
+        WorkerBuyButtonRect = WorkerBuyButton.get_rect(topleft=(-100, 900))
     Money = str(CurrentDisplayedMoney)
     Income = str(CurrentDisplayedIncome)
 
-    window.blit(BuyButton, (50, 450))
+    window.blit(GpuBuyButton, GpuBuyButtonRect)
+    window.blit(WorkerBuyButton, WorkerBuyButtonRect)
+
+    if GameFinished == False:
+        DebtPriceText = SmallerFont.render(f"${DebtCost}", True, (0, 0, 0))
+        window.blit(DebtPriceText, (560, 430))
+        window.blit(debtimage, (550, 230))
+        window.blit(DebtBuyButton, DebtBuyButtonRect)
+
+    if GameFinished == True:
+        WinText = RegularFont.render("You saved the AI Bubble!", True, (0, 0, 0))
+        QuoteText = SmallerFont.render("Humanity is cooked..", True, (0, 0, 0))
+        window.blit(WinText, (0, 300 + IncomeFloat))
+        window.blit(QuoteText, (100, 410 + IncomeFloat))
 
     # Money stuff
     window.blit(MoneySprite, (50, 20 + MoneyFloat))
