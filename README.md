@@ -16,3 +16,24 @@ Automated Workers and unpaid interns!
 And Pay off your side of the AI Bubble debt!
 
 <img width="258" height="365" alt="Screenshot_2026-11-07_21-24-17" src="https://github.com/user-attachments/assets/3c617c82-81f1-42b8-b8a0-6557cf0733ce" />
+
+# Why did I make this? 
+
+Well I created it for the Terra ysws for the most part but the inspiration came from when I was at costco, I took a look at the double chunk chocolate cookies and I had an idea.. 
+
+What if I created a bootleg cookie clicker but made it a memed version of the AI Bubble situation?
+
+And thats how you get this joke game! (Suprisingly)
+
+<img width="960" height="720" alt="Screenshot_2026-11-07_21-26-20" src="https://github.com/user-attachments/assets/b9d3b397-9692-419c-8e68-ea7de8664d03" />
+
+# What are the games features?
+
+Clicking the GPU Icon in the top right gives you money, there is a specified amount of money given to each gpu type when the player clicks on them.
+
+So basically the better your GPU is the more money per click you earn.
+
+Workers basically give you income, and income is added onto the current money you have right now but is given every second. Workers take the GPUs cash and multiplies it by how much they earn per second.
+
+For Example the intern makes $5 per second and if you have the default starting GPU which makes $1 per click,
+your income will still be $5 because 5 x 1  = 5.
