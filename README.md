@@ -48,6 +48,14 @@ You get money from clicking on the GPU on the top right, clicking on it gives yo
 can buy upgrades (get better gpus) or buy workers (which give you passive income). When you have enough money
 you can beat the game by buying the "debt" upgrade which is $50,000 dollars!
 
-Buying this upgrade will put the win screen and officially tell you that you have saved the AI Bubble!
+Buying this "Debt" upgrade will put the win screen and officially tell you that you have saved the AI Bubble!
+
+So basically in short, Click Top Right GPU = Money
+
+Buy Workers = Passive Income
+
+Passive Income = GPU Click x Worker Multiplier
+
+To win = Buy "debt" upgrade
 
 <img width="798" height="554" alt="Screenshot_2026-11-08_11-02-40" src="https://github.com/user-attachments/assets/8c791af0-0a71-46f3-b0a2-620710500775" />
