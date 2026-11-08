@@ -37,3 +37,11 @@ Workers basically give you income, and income is added onto the current money yo
 
 For Example the intern makes $5 per second and if you have the default starting GPU which makes $1 per click,
 your income will still be $5 because 5 x 1  = 5.
+
+# How do you win?
+
+To win you must save up enough money and buy the "Debt" upgrade.
+
+Buying this upgrade will put the win screen and officially tell you that you have saved the AI Bubble!
+
+<img width="798" height="554" alt="Screenshot_2026-11-08_11-02-40" src="https://github.com/user-attachments/assets/8c791af0-0a71-46f3-b0a2-620710500775" />
