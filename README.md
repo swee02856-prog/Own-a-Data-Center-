@@ -33,7 +33,7 @@ And thats how you get this joke game! (Suprisingly)
 
 If you do meet this requirement you can head into releases and download the Linux executable file,
 
-NOT Source Code
+**NOT!!** the Source Code
 
 # What are the games features?
 
