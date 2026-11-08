@@ -1,6 +1,16 @@
 import pygame
 import math
+import os
+import sys
 pygame.init()
+
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except AttributeError:
+        base_path = os.path.dirname(os.path.abspath(__file__))
+
+    return os.path.join(base_path, relative_path)
 
 '''
 Day 1
@@ -33,80 +43,80 @@ window = pygame.display.set_mode((800, 600))
 window.fill((0, 0, 0))
 pygame.display.set_caption("Build a Data Center!")
 
-popsound = pygame.mixer.Sound("sounds/pop.mp3")
-moneysound = pygame.mixer.Sound("sounds/money.mp3")
+popsound = pygame.mixer.Sound(resource_path("sounds/pop.mp3"))
+moneysound = pygame.mixer.Sound(resource_path("sounds/money.mp3"))
 
-debtimage = pygame.image.load("imgs/debt.png").convert_alpha()
+debtimage = pygame.image.load(resource_path("imgs/debt.png")).convert_alpha()
 debtimage = pygame.transform.scale(debtimage, (200, 200))
 
-GpuBuyButton = pygame.image.load("imgs/BuyButton.png").convert_alpha()
+GpuBuyButton = pygame.image.load(resource_path("imgs/BuyButton.png")).convert_alpha()
 SmallGpuBuyButton = pygame.transform.scale(GpuBuyButton, (200, 180))
 BigGpuBuyButton = pygame.transform.scale(GpuBuyButton, (250, 230))
 
-WorkerBuyButton = pygame.image.load("imgs/BuyButton.png").convert_alpha()
+WorkerBuyButton = pygame.image.load(resource_path("imgs/BuyButton.png")).convert_alpha()
 SmallWorkerBuyButton = pygame.transform.scale(WorkerBuyButton, (200, 180))
 BigWorkerBuyButton = pygame.transform.scale(WorkerBuyButton, (250, 230))
 
-DebtBuyButton = pygame.image.load("imgs/BuyButton.png").convert_alpha()
+DebtBuyButton = pygame.image.load(resource_path("imgs/BuyButton.png")).convert_alpha()
 SmallDebtBuyButton = pygame.transform.scale(DebtBuyButton, (200, 180))
 BigDebtBuyButton = pygame.transform.scale(DebtBuyButton, (250, 230))
 
-RegularFont = pygame.font.Font(("Kalam-Regular.ttf"), 80)
-SmallerFont = pygame.font.Font(("Kalam-Regular.ttf"), 60)
-EvenSmallerFont = pygame.font.Font(("Kalam-Regular.ttf"), 30)
-LargeFont = pygame.font.Font(("Kalam-Regular.ttf"), 110)
+RegularFont = pygame.font.Font(resource_path("Kalam-Regular.ttf"), 80)
+SmallerFont = pygame.font.Font(resource_path("Kalam-Regular.ttf"), 60)
+EvenSmallerFont = pygame.font.Font(resource_path("Kalam-Regular.ttf"), 30)
+LargeFont = pygame.font.Font(resource_path("Kalam-Regular.ttf"), 110)
 
 Background = pygame.surface.Surface((800, 600))
 Background.fill((255, 255, 255))
 
-FirstWorker = pygame.image.load("imgs/Intern.png").convert_alpha()
+FirstWorker = pygame.image.load(resource_path("imgs/Intern.png")).convert_alpha()
 FirstWorker = pygame.transform.scale(FirstWorker, (200, 200))
 
-SecondWorker = pygame.image.load("imgs/LeetcodeTryhard.png").convert_alpha()
+SecondWorker = pygame.image.load(resource_path("imgs/LeetcodeTryhard.png")).convert_alpha()
 SecondWorker = pygame.transform.scale(SecondWorker, (200, 200))
 
-ThirdWorker = pygame.image.load("imgs/LinusTechTips.png").convert_alpha()
+ThirdWorker = pygame.image.load(resource_path("imgs/LinusTechTips.png")).convert_alpha()
 ThirdWorker = pygame.transform.scale(ThirdWorker, (200, 200))
 
-FourthWorker = pygame.image.load("imgs/LinusTorwalds.png").convert_alpha()
+FourthWorker = pygame.image.load(resource_path("imgs/LinusTorwalds.png")).convert_alpha()
 FourthWorker = pygame.transform.scale(FourthWorker, (200, 200))
 
 CurrentWorker = "None"
 
-MoneySprite = pygame.image.load("imgs/Money.png").convert_alpha()
+MoneySprite = pygame.image.load(resource_path("imgs/Money.png")).convert_alpha()
 MoneySprite = pygame.transform.scale(MoneySprite, (100, 50))
 
-GPU1Sprite = pygame.image.load("imgs/GPU1.png").convert_alpha()
+GPU1Sprite = pygame.image.load(resource_path("imgs/GPU1.png")).convert_alpha()
 GPU1Sprite = pygame.transform.scale(GPU1Sprite, (220, 200))
 
-BigGPU1Sprite = pygame.image.load("imgs/GPU1.png").convert_alpha()
+BigGPU1Sprite = pygame.image.load(resource_path("imgs/GPU1.png")).convert_alpha()
 BigGPU1Sprite = pygame.transform.scale(BigGPU1Sprite, (275, 250))
 
-GPU2Sprite = pygame.image.load("imgs/GPU2.png").convert_alpha()
+GPU2Sprite = pygame.image.load(resource_path("imgs/GPU2.png")).convert_alpha()
 GPU2Sprite = pygame.transform.scale(GPU2Sprite, (240, 220))
 
-BigGPU2Sprite = pygame.image.load("imgs/GPU2.png").convert_alpha()
+BigGPU2Sprite = pygame.image.load(resource_path("imgs/GPU2.png")).convert_alpha()
 BigGPU2Sprite = pygame.transform.scale(BigGPU2Sprite, (295, 270))
 
-GPU3Sprite = pygame.image.load("imgs/GPU3.png").convert_alpha()
+GPU3Sprite = pygame.image.load(resource_path("imgs/GPU3.png")).convert_alpha()
 GPU3Sprite = pygame.transform.scale(GPU3Sprite, (260, 240))
 
-BigGPU3Sprite = pygame.image.load("imgs/GPU3.png").convert_alpha()
+BigGPU3Sprite = pygame.image.load(resource_path("imgs/GPU3.png")).convert_alpha()
 BigGPU3Sprite = pygame.transform.scale(BigGPU3Sprite, (315, 290))
 
-GPU4Sprite = pygame.image.load("imgs/GPU4.png").convert_alpha()
+GPU4Sprite = pygame.image.load(resource_path("imgs/GPU4.png")).convert_alpha()
 GPU4Sprite = pygame.transform.scale(GPU4Sprite, (270, 250))
 
-BigGPU4Sprite = pygame.image.load("imgs/GPU4.png").convert_alpha()
+BigGPU4Sprite = pygame.image.load(resource_path("imgs/GPU4.png")).convert_alpha()
 BigGPU4Sprite = pygame.transform.scale(BigGPU4Sprite, (325, 300))
 
-GPU2ExampleSprite = pygame.image.load("imgs/Rtx5060.png").convert_alpha()
+GPU2ExampleSprite = pygame.image.load(resource_path("imgs/Rtx5060.png")).convert_alpha()
 GPU2ExampleSprite = pygame.transform.scale(GPU2ExampleSprite, (200, 200))
 
-GPU3ExampleSprite = pygame.image.load("imgs/Rtx5090.png").convert_alpha()
+GPU3ExampleSprite = pygame.image.load(resource_path("imgs/Rtx5090.png")).convert_alpha()
 GPU3ExampleSprite = pygame.transform.scale(GPU3ExampleSprite, (200, 200))
 
-GPU4ExampleSprite = pygame.image.load("imgs/RtxServer6000.png").convert_alpha()
+GPU4ExampleSprite = pygame.image.load(resource_path("imgs/RtxServer6000.png")).convert_alpha()
 GPU4ExampleSprite = pygame.transform.scale(GPU4ExampleSprite, (200, 200))
 
 GPURect = pygame.Rect(450, 20, 220, 200)
