@@ -42,6 +42,12 @@ your income will still be $5 because 5 x 1  = 5.
 
 To win you must save up enough money and buy the "Debt" upgrade.
 
+**How do you get money?**
+
+You get money from clicking on the GPU on the top right, clicking on it gives you some money, with that money you
+can buy upgrades (get better gpus) or buy workers (which give you passive income). When you have enough money
+you can beat the game by buying the "debt" upgrade which is $50,000 dollars!
+
 Buying this upgrade will put the win screen and officially tell you that you have saved the AI Bubble!
 
 <img width="798" height="554" alt="Screenshot_2026-11-08_11-02-40" src="https://github.com/user-attachments/assets/8c791af0-0a71-46f3-b0a2-620710500775" />
